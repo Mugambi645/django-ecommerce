@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 from .models import Category, Product
+
 
 def categories(request):
     return {

@@ -1,6 +1,9 @@
-from django.test import TestCase
-from store.models import Category, Product
 from django.contrib.auth.models import User
+from django.test import TestCase
+
+from store.models import Category, Product
+
+
 class TestCategoriesModel(TestCase):
     def setUp(self):
         self.data1 = Category.objects.create(name="django", slug="django")
