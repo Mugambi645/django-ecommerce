@@ -33,8 +33,11 @@
                                 </select>
 
                             </div>
-                            <div class="col-6 text-end"><button type="button"  class="btn btn-secondary btn-sm">Add to
-                                    basket</button></div>
+                            <div class="col-6 text-end">
+                                <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+
+                                <button type="button" id="add-button" value="{{product.id}}" class="btn btn-secondary btn-sm">Add to basket</button></div>
+                                                        </div>
                         </div>
                     </div>
                 </div>
@@ -43,4 +46,57 @@
     </main>
 
 </div>
+<script>
+// Get CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('add-button').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const productId = document.getElementById('add-button').value;
+        const productQty = document.getElementById('select').value;
+        const csrfToken = document.getElementById('csrf_token').value;
+
+        fetch("{% url 'basket:basket_add' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({
+                productid: productId,
+                productqty: productQty,
+                action: 'post'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not OK');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("basket-qty").innerHTML = data.qty;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+</script>
 {% endblock %}
