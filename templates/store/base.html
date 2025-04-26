@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">BookStore</a>
+                <a class="navbar-brand" href="/">BookStore</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,7 +33,7 @@
                                 Library
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url "store:all_products" %}">All</a></li>
+                                <li><a class="dropdown-item" href="{% url "store:product_all" %}">All</a></li>
                                 {% for c in categories %}
                                 <li {% if category.slug == c.slug %}class="selected" {% endif %}>
                                     <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name|title }}</a>

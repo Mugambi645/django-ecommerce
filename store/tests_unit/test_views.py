@@ -6,7 +6,7 @@ from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
 from store.models import Category, Product
-from store.views import all_products
+from store.views import product_all
 
 
 @skip("demonstrating skipping")
@@ -47,9 +47,18 @@ class TestViewResponses(TestCase):
         response = self.c.get(reverse("store:category_list", args=["django"]))
         self.assertEqual(response.status_code, 200)
         print(response.content)
+    def test_url_allowed_hosts(self):
+        """
+        Test allowed hosts
+        """
+        response = self.c.get("/", HTTP_HOST = "noaddress.com")
+        self.assertEqual(response.status_code, 400)
+        response = self.c.get("/", HTTP_HOST="yourdomain.com")
+        self.assertEqual(response.status_code, 200)
+        
     def test_homepage_url(self):
         request = HttpRequest()
-        response = all_products(request)
+        response = product_all(request)
         html = response.content.decode("utf8")
         print(html)
         #self.assertIn('<title>Home</title>', html)
@@ -58,7 +67,7 @@ class TestViewResponses(TestCase):
     
     def test_view_function(self):
         request = self.factory.get("/item/django-beginners")
-        response = all_products(request)
+        response = product_all(request)
         html = response.content.decode("utf8")
         print(html)
         #self.assertIn('<title>Home</title>', html)
