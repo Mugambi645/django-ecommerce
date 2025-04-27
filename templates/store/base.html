@@ -14,13 +14,22 @@
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-
+    <link rel="stylesheet" href="{% static 'css/basket.css' %}">
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
 </head>
 
 <body>
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
             <div class="container-fluid">
+                
+                <a class="navbar-brand d-flex-inline" href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
+                        class="bi bi-asterisk" viewBox="0 0 16 16">
+                        <path
+                            d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+                    </svg>
+                </a>
                 <a class="navbar-brand" href="/">BookStore</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,6 +68,54 @@
 
 
 
+
+
+
+
+
+
+                    {% if user.is_authenticated %}
+                    <a type="button" role="button" href=""
+                        class="btn btn-outline-secondary border-0 basket-btn">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                class="bi bi-door-closed" viewBox="0 0 16 16">
+                                <path
+                                    d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
+                                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
+                            </svg>
+                        </div>
+                        <span class="fs15 fw500">Logout</span>
+                    </a>
+
+
+                    {% else %}
+                    <a type="button" role="button" href=""
+                        class="btn btn-outline-secondary border-0 basket-btn">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                class="bi bi-door-closed" viewBox="0 0 16 16">
+                                <path
+                                    d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
+                                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
+                            </svg>
+                        </div>
+                        <span class="fs15 fw500">Login</span>
+                    </a>
+                    {% endif %}
+
+                    <a type="button" role="button" href=""
+                    class="btn btn-outline-secondary border-0 basket-btn">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                            class="bi bi-person" viewBox="0 0 16 16">
+                            <path
+                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                        </svg>
+                    </div>
+                    <span class="fs15 fw500">Account</span>
+                </a>
+
                     <a type="button" role="button" href="{% url "basket:basket_summary" %}"
                     class="btn btn-outline-secondary">
 
@@ -89,5 +146,61 @@
         </nav>
     </header>
     <div id="content">{% block content %} {% endblock %}</div>
+
+
+
+
+    <footer class="container py-5 footer">
+        <hr>
+        <div class="row pt-4">
+            <div class="col-12 col-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-asterisk" viewBox="0 0 16 16">
+                    <path
+                        d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+                </svg>
+                <small class="d-block mb-3 text-muted">&copy; 2017-2025</small>
+            </div>
+
+    <div class="col-6 col-md fs15">
+        <h5>Features</h5>
+        <ul class="list-unstyled">
+            <li><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
+            <li><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
+            <li><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+            <li><a class="link-secondary text-decoration-none" href="#">Stuff for developers</a></li>
+            <li><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
+            <li><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
+        </ul>
+    </div>
+    <div class="col-6 col-md fs15">
+        <h5>Resources</h5>
+        <ul class="list-unstyled">
+            <li><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
+            <li><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
+    <li><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
+    <li><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+</ul>
+</div>
+<div class="col-6 col-md fs15">
+<h5>Resources</h5>
+<ul class="list-unstyled">
+    <li><a class="link-secondary text-decoration-none" href="#">Business</a></li>
+    <li><a class="link-secondary text-decoration-none" href="#">Education</a></li>
+    <li><a class="link-secondary text-decoration-none" href="#">Government</a></li>
+    <li><a class="link-secondary text-decoration-none" href="#">Gaming</a></li>
+</ul>
+</div>
+<div class="col-6 col-md">
+<h5>About</h5>
+<ul class="list-unstyled">
+    <li><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+    <li><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+    <li><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+    <li><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+</ul>
+</div>
+</div>
+</footer>
 </body>
 </html>
