@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-xi9z**oy+4bu1dv$j85=3+$(ve9mc00#d1w_9nk0z#yj9mgysz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["yourdomain.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["yourdomain.com", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -132,6 +132,9 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+# Basket session ID
+BASKET_SESSION_ID = 'basket'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

@@ -24,23 +24,27 @@ def dashboard(request):
                   'account/user/dashboard.html',
                   {'section': 'profile', 'orders': orders})
 
+from django.contrib import messages
 
 @login_required
 def edit_details(request):
     """
     Allow users to edit their profile details (except email and username).
     """
+    form_submitted = False  # NEW LINE
+
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
 
         if user_form.is_valid():
             user_form.save()
+            form_submitted = True  # NEW LINE
     else:
         user_form = UserEditForm(instance=request.user)
 
     return render(request,
-                  'account/user/edit_details.html', {'user_form': user_form})
-
+                  'account/user/edit_details.html',
+                  {'user_form': user_form, 'form_submitted': form_submitted})  # NEW LINE
 
 @login_required
 def delete_user(request):
