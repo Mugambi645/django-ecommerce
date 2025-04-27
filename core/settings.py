@@ -140,3 +140,7 @@ AUTH_USER_MODEL = "account.UserBase"
 LOGIN_REDIRECT_URL = "/account/dashboard"
 LOGIN_URL = "/account/login/"
 PASSWORD_RESET_TIMEOUT_DAYS = 2
+
+
+#Email setting
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
