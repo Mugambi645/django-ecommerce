@@ -3,11 +3,11 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from .forms import RegistrationForm
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from django.http import HttpResponse
-from .forms import RegistrationForm, UserEditForm
+from .forms import RegistrationForm
 from .models import UserBase
 from .tokens import account_activation_token
 from django.contrib.sites.shortcuts import get_current_site
