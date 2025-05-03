@@ -8,7 +8,6 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from orders.views import user_orders
-
 from .forms import RegistrationForm, UserEditForm
 from .models import UserBase
 from .tokens import account_activation_token
@@ -17,39 +16,37 @@ from .tokens import account_activation_token
 @login_required
 def dashboard(request):
     """
-    Display the user dashboard with their profile information and order history.
+    Display the user dashboard with a list of their orders.
+    Only accessible to logged-in users.
     """
     orders = user_orders(request)
     return render(request,
-                  'account/user/dashboard.html',
+                  'account/dashboard/dashboard.html',
                   {'section': 'profile', 'orders': orders})
 
-from django.contrib import messages
 
 @login_required
 def edit_details(request):
     """
-    Allow users to edit their profile details (except email and username).
+    Allow users to edit their account details.
+    If the form is valid on POST, save the updated details.
     """
-    form_submitted = False  # NEW LINE
-
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
-
         if user_form.is_valid():
             user_form.save()
-            form_submitted = True  # NEW LINE
     else:
         user_form = UserEditForm(instance=request.user)
 
     return render(request,
-                  'account/user/edit_details.html',
-                  {'user_form': user_form, 'form_submitted': form_submitted})  # NEW LINE
+                  'account/dashboard/edit_details.html', {'user_form': user_form})
+
 
 @login_required
 def delete_user(request):
     """
-    Deactivate the current user's account and log them out.
+    Deactivate (soft delete) the currently logged-in user's account.
+    After deactivation, logs out the user and redirects to a confirmation page.
     """
     user = UserBase.objects.get(user_name=request.user)
     user.is_active = False
@@ -60,9 +57,9 @@ def delete_user(request):
 
 def account_register(request):
     """
-    Handle user registration process:
-    - Create an inactive user.
-    - Send an email with an activation link.
+    Handle user registration.
+    Creates a new inactive user and sends an activation email.
+    Redirects authenticated users to the dashboard.
     """
     if request.user.is_authenticated:
         return redirect('account:dashboard')
@@ -75,6 +72,7 @@ def account_register(request):
             user.set_password(registerForm.cleaned_data['password'])
             user.is_active = False
             user.save()
+
             current_site = get_current_site(request)
             subject = 'Activate your Account'
             message = render_to_string('account/registration/account_activation_email.html', {
@@ -84,16 +82,18 @@ def account_register(request):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject=subject, message=message)
-            return HttpResponse('registered successfully and activation sent')
+
+            return render(request, 'account/registration/register_email_confirm.html', {'form': registerForm})
     else:
         registerForm = RegistrationForm()
-        
+
     return render(request, 'account/registration/register.html', {'form': registerForm})
 
 
 def account_activate(request, uidb64, token):
     """
-    Activate the user's account after verifying the activation link.
+    Activate a user account via the activation link sent to their email.
+    If the token and user ID are valid, activate the account and log the user in.
     """
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))

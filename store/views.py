@@ -6,12 +6,12 @@ from .models import Category, Product
 
 def product_all(request):
     products = Product.objects.filter(is_active=True)
-    return render(request, "store/home.html", {'products': products})
+    return render(request, "store/index.html", {'products': products})
 
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, in_stock=True)
-    return render(request, "store/products/product_detail.html",{"product": product})
+    return render(request, "store/product_detail.html",{"product": product})
 
 def category_list(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
