@@ -3,7 +3,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from . import views
-from .forms import (PwdResetConfirmForm, PwdResetForm, UserLoginForm)
+from .forms import PwdResetConfirmForm, PwdResetForm, UserLoginForm
 
 # https://docs.djangoproject.com/en/3.1/topics/auth/default/
 # https://ccbv.co.uk/projects/Django/3.0/django.contrib.auth.views/PasswordResetConfirmView/
@@ -17,8 +17,7 @@ urlpatterns = [
     path('register/', views.account_register, name='register'),
     path('activate/<slug:uidb64>/<slug:token>)/', views.account_activate, name='activate'),
     # Reset password
-    path('password_reset/', auth_views.PasswordResetView.as_view(template_name="account/password_reset/password_reset_form.html",
-                                                                 success_url='password_reset_email_confirm',
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name="account/password_reset/password_reset_form.html",                                               success_url='password_reset_email_confirm',
                                                                  email_template_name='account/password_reset/password_reset_email.html',
                                                                  form_class=PwdResetForm), name='pwdreset'),
     path('password_reset_confirm/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset/password_reset_confirm.html',

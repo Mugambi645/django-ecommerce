@@ -1,5 +1,7 @@
 from decimal import Decimal
+
 from store.models import Product
+
 
 class Basket:
     """Handles session-based shopping cart functionality."""
